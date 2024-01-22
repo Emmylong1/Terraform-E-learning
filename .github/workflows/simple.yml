@@ -1,0 +1,54 @@
+name: "simple"
+on:
+  workflow_dispatch:
+
+jobs:
+  Plan_Dev:
+    if: github.ref == 'refs/heads/FeatureBranch1'
+    uses: Emmylong1/Terraform-E-learning/.github/workflows/aws_tf_plan.yml@FeatureBranch1
+    with:
+      path: simple
+      tf_vars_file: dev.tfvars
+      gh_environment: dev
+    secrets:
+      - name: Configure AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+  Deploy_Dev:
+    needs: Plan_Dev
+    uses: Emmylong1/Terraform-E-learning/.github/workflows/aws_tf_apply.yml@FeatureBranch1
+    with:
+      path: simple
+      tf_vars_file: terrraform.tfvars
+      gh_environment: dev
+    secrets:
+      - name: Configure AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+  Plan_Uat:
+    if: github.ref == 'refs/heads/main'
+    uses: Emmylong1/Terraform-E-learning/.github/workflows/aws_tf_plan.yml@main
+    with:
+      path: simple
+      tf_vars_file: terrraform.tfvars
+      gh_environment: uat
+    secrets:
+      - name: Configure AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+
+  Deploy_Uat:
+    needs: Plan_Uat
+    uses: Emmylong1/Terraform-E-learning/.github/workflows/aws_tf_appy.yml@main
+    with:
+      path: simple
+      tf_vars_file: terrraform.tfvarss
+      gh_environment: uat
+     - name: Configure AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+

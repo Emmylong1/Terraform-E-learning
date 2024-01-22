@@ -1,2 +1,2 @@
-aws_region     = "us-west-2"
+aws_region     = "us-east-2"
 instance_type  = "t2.micro"

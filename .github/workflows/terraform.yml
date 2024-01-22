@@ -23,7 +23,7 @@ jobs:
 
       - name: Terraform Init and Apply - Dev
         run: |
-         dev
+         export PATH=$PATH:/simple/to/dev
           terraform init
           terraform apply -auto-approve
 

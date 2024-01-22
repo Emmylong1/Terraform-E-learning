@@ -17,7 +17,7 @@ jobs:
           echo "AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY_ID }}" >> $GITHUB_ENV
   Deploy_Dev:
     needs: Plan_Dev
-    uses: Emmylong1/gTerraform-E-learning/.github/workflows/aws_tf_apply.yml@FeatureBranch1
+    uses: Emmylong1/Terraform-E-learning/.github/workflows/aws_tf_apply.yml@FeatureBranch1
     with:
       path: simple
       tf_vars_file: terrraform.tfvars
@@ -42,7 +42,7 @@ jobs:
 
   Deploy_Uat:
     needs: Plan_Uat
-    uses: Emmylong1/gitreusableflows/.github/workflows/aws_tf_appy.yml@main
+    uses: Emmylong1/Terraform-E-learning/.github/workflows/aws_tf_appy.yml@main
     with:
       path: simple
       tf_vars_file: terrraform.tfvarss

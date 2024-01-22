@@ -5,40 +5,50 @@ on:
 jobs:
   Plan_Dev:
     if: github.ref == 'refs/heads/FeatureBranch1'
-    uses: RekhuGopal/gitreusableflows/.github/workflows/aws_tf_plan.yml@FeatureBranch1
+    uses: Emmylong1/Terraform-E-learning/.github/workflows/aws_tf_plan.yml@FeatureBranch1
     with:
-      path: IAMRoles
+      path: simple
       tf_vars_file: dev.tfvars
       gh_environment: dev
     secrets:
-      cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-
+      - name: Configure AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY_ID }}" >> $GITHUB_ENV
   Deploy_Dev:
     needs: Plan_Dev
-    uses: RekhuGopal/gitreusableflows/.github/workflows/aws_tf_appy.yml@FeatureBranch1
+    uses: Emmylong1/gTerraform-E-learning/.github/workflows/aws_tf_apply.yml@FeatureBranch1
     with:
       path: IAMRoles
-      tf_vars_file: dev.tfvars
+      tf_vars_file: terrraform.tfvars
       gh_environment: dev
     secrets:
-      cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-
+      - name: Configure AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY_ID }}" >> $GITHUB_ENV
   Plan_Uat:
     if: github.ref == 'refs/heads/main'
-    uses: RekhuGopal/gitreusableflows/.github/workflows/aws_tf_plan.yml@main
+    uses: RekhuGopal/Terraform-E-learning/.github/workflows/aws_tf_plan.yml@main
     with:
-      path: IAMRoles
-      tf_vars_file: uat.tfvars
+      path: simple
+      tf_vars_file: terrraform.tfvars
       gh_environment: uat
     secrets:
-      cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      - name: Configure AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY_ID }}" >> $GITHUB_ENV
 
   Deploy_Uat:
     needs: Plan_Uat
-    uses: RekhuGopal/gitreusableflows/.github/workflows/aws_tf_appy.yml@main
+    uses: Emmylong1/gitreusableflows/.github/workflows/aws_tf_appy.yml@main
     with:
-      path: IAMRoles
-      tf_vars_file: uat.tfvars
+      path: simple
+      tf_vars_file: terrraform.tfvarss
       gh_environment: uat
-    secrets:
-      cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+     - name: Configure AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+

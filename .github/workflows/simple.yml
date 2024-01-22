@@ -19,7 +19,7 @@ jobs:
     needs: Plan_Dev
     uses: Emmylong1/gTerraform-E-learning/.github/workflows/aws_tf_apply.yml@FeatureBranch1
     with:
-      path: IAMRoles
+      path: simple
       tf_vars_file: terrraform.tfvars
       gh_environment: dev
     secrets:

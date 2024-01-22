@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Echo Dev Message
+        run: echo "I'm running a job in Dev environment"
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -31,6 +34,9 @@ jobs:
     if: success()
 
     steps:
+      - name: Echo UAT Message
+        run: echo "I'm running a job in UAT environment"
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -52,6 +58,9 @@ jobs:
     if: success()
 
     steps:
+      - name: Echo Prod Message
+        run: echo "I'm running a job in Prod environment"
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 

@@ -1,0 +1,76 @@
+name: Terraform Deployment
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy_dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo Dev Message
+        run: echo "I'm running a job in Dev environment"
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: "1.0.0"  # Adjust to your desired Terraform version
+
+      - name: Terraform Init and Apply - Dev
+        run: |
+         cd simple/to/terraform/config
+          terraform init
+          terraform apply -auto-approve
+
+  deploy_uat:
+    runs-on: ubuntu-latest
+
+    needs: deploy_dev
+    if: success()
+
+    steps:
+      - name: Echo UAT Message
+        run: echo "I'm running a job in UAT environment"
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: "1.0.0"  # Adjust to your desired Terraform version
+
+      - name: Terraform Init and Apply - UAT
+        run: |
+          cd uat
+          terraform init
+          terraform apply -auto-approve
+
+  deploy_prod:
+    runs-on: ubuntu-latest
+
+    needs: deploy_uat
+    if: success()
+
+    steps:
+      - name: Echo Prod Message
+        run: echo "I'm running a job in Prod environment"
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: "1.0.0"  # Adjust to your desired Terraform version
+
+      - name: Terraform Init and Apply - Prod
+        run: |
+          cd prod
+          terraform init
+          terraform apply -auto-approve
